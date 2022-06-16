@@ -35,15 +35,32 @@ public class Reusable_Actions_POM_Loggers {
         return driver;
     }//end of setDriver method
 
+    //resuable function for webdriver as a return method
+    public static WebDriver setDriver2() {
+        //setup your chromedriver with webdrivermanager
+        WebDriverManager.chromedriver().setup();
+        //set chrome options arguments
+        ChromeOptions options = new ChromeOptions();
+        //set the condition to incognito mode
+        options.addArguments("incognito");
+        //set the condition to run driver in background
+        options.addArguments("headless");
+        //define the webdriver I am going to use
+        WebDriver driver = new ChromeDriver(options);
+        return driver;
+    }//end of setDriver method
+
     //create a mouse hover method
-    public static void mouseHover(WebDriver driver,String xpath, String elementName){
+    public static void mouseHover(WebDriver driver,WebElement xpath, ExtentTest logger, String elementName){
         WebDriverWait wait = new WebDriverWait(driver,timeout);
         Actions actions = new Actions(driver);
         try{
-            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath)));
+            WebElement element = wait.until(ExpectedConditions.visibilityOf(xpath));
             actions.moveToElement(element).perform();
         } catch (Exception e) {
             System.out.println("Unable to hover on element " + elementName + " " + e);
+            logger.log(LogStatus.FAIL,"Unable to hover on element " + elementName + " " + e);
+            getScreenShot(driver, elementName, logger);
         }
     }//end of mouseHover
 
@@ -91,7 +108,7 @@ public class Reusable_Actions_POM_Loggers {
     }//end of sendkeys method
 
     //create a getText method
-    public static String getTextAction(WebDriver driver,WebElement xpath,ExtentTest logger, String elementName){
+    public static String getTextAction(WebDriver driver,WebElement xpath, ExtentTest logger, String elementName){
         WebDriverWait wait = new WebDriverWait(driver,timeout);
         String result = "";
         try{
@@ -101,20 +118,94 @@ public class Reusable_Actions_POM_Loggers {
         } catch (Exception e) {
             System.out.println("Unable to capture text on element " + elementName + " " + e);
             logger.log(LogStatus.FAIL,"Unable to capture text on element " + elementName + " " + e);
+            getScreenShot(driver, elementName, logger);
         }
         return result;
     }//end of getTextAction method
 
     //create a click by index method
-    public static void clickByIndexAction(WebDriver driver,String xpath, int indexNumber, String elementName){
+    public static void clickByIndexAction(WebDriver driver, WebElement xpath, int indexNumber, ExtentTest logger, String elementName){
         WebDriverWait wait = new WebDriverWait(driver,timeout);
         try{
-            WebElement element = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath(xpath))).get(indexNumber);
+            WebElement element = wait.until(ExpectedConditions.visibilityOfAllElements(xpath)).get(indexNumber);
             element.click();
         } catch (Exception e) {
             System.out.println("Unable to click on element " + elementName + " " + e);
+            logger.log(LogStatus.FAIL,"Unable to click on element " + elementName + " " + e);
+            getScreenShot(driver, elementName, logger);
         }
     }//end of clickByIndexAction
+
+    //create a method to select by text
+    public static void selectByText(WebDriver driver, WebElement xpath, String xPath, ExtentTest logger, String elementName) {
+        WebDriverWait wait = new WebDriverWait(driver, timeout);
+        try {
+            //select month from the dropdown
+            WebElement dropDown = wait.until(ExpectedConditions.visibilityOf(xpath));
+            //clicking on dropdown and its value if the dropdown tag is not under select tag
+            dropDown.click();
+            //click on the value of the start month
+            driver.findElement(By.xpath(xPath)).click();
+            logger.log(LogStatus.PASS, "Successfully able to select element " + elementName);
+        } catch (Exception e) {
+            System.out.println("Unable to unable to select by text using element " + elementName + " " + e);
+            logger.log(LogStatus.FAIL, "Unable to select element " + elementName);
+            getScreenShot(driver, elementName, logger);
+        }
+
+    }
+
+    //create a scroll into view method
+    public static void scrollIntoView(WebDriver driver, WebElement xpath, ExtentTest logger, String elementName) {
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        WebDriverWait wait = new WebDriverWait(driver, timeout);
+        //handle exception for scroll to bottom
+        try {
+            //declare a web element variable that we want to scroll into
+            WebElement scrollInto = wait.until(ExpectedConditions.visibilityOf(xpath));
+
+            //scroll into this element
+            jse.executeScript("arguments[0].scrollIntoView(true);", scrollInto);
+
+            logger.log(LogStatus.PASS, "Successfully able to scroll into element " + elementName);
+
+        } catch (Exception e) {
+            System.out.println("Unable to scroll to element " + elementName + " " + e);
+            logger.log(LogStatus.PASS, "Unable to scroll into element " + elementName + " " + e);
+            getScreenShot(driver, elementName, logger);
+
+        }
+
+    }
+
+    //create a capture screen shot method
+    public static void captureScreenshot(WebDriver driver, String screenshotName, ExtentTest logger, String elementName) {
+
+        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+        try {
+            FileUtils.copyFile(screenshot,
+                    new File(System.getProperty("user.dir") + "/Screenshots/" + screenshotName + ".png"));
+            System.out.println("Screenshot captured for " +elementName);
+            logger.log(LogStatus.PASS, "Successfully able to capture screenshot for " + elementName);
+        } catch (Exception e) {
+            System.out.println("Exception while taking screenshot for " +elementName+ " " +e);
+            logger.log(LogStatus.PASS, "Unable to capture screenshot for " + elementName + " " + e);
+            getScreenShot(driver, elementName, logger);
+        }
+    }
+
+    public static Boolean checkCheckBox(WebDriver driver, WebElement xpath, ExtentTest logger, String elementName){
+        WebDriverWait wait = new WebDriverWait(driver, timeout);
+        Boolean result = null;
+        try {
+            result = wait.until(ExpectedConditions.visibilityOf(xpath)).isSelected();
+            logger.log(LogStatus.PASS, "Is element " + elementName + "located? " +result);
+        } catch (Exception e) {
+            System.out.println("Unable to identify if element " + elementName + " is checked " + e);
+            logger.log(LogStatus.FAIL, "Unable to identify if element " + elementName + " is checked" + e);
+        }
+        return result;
+    }
 
     //method to capture screenshot when logger fails
     public static void getScreenShot(WebDriver driver,String imageName,ExtentTest logger) {
@@ -135,6 +226,23 @@ public class Reusable_Actions_POM_Loggers {
         }
     }//end of getScreenshot method
 
-
+    //translate
+    public static String translate(WebDriver driver, String userInput, ExtentTest logger, String elementName){
+        WebDriverWait wait = new WebDriverWait(driver, timeout);
+        String result = null;
+        try {
+            driver.navigate().to("https://translate.google.com/");
+            Reusable_Actions.sendKeysAction(driver, "//*[@aria-label= 'Source text']", userInput, elementName);
+            WebElement element = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//*[@jsname= 'ksKsZd']"))).get(5);
+            element.click();
+            result = Reusable_Actions.getTextAction(driver, "//*[@class= 'J0lOec']", elementName);
+            logger.log(LogStatus.PASS, "Successfully able to translate " + elementName);
+        } catch (Exception e) {
+            System.out.println("Exception while translating " +elementName+ " " +e);
+            logger.log(LogStatus.PASS, "Unable to translate " + elementName + " " + e);
+        }
+        driver.quit();
+        return result;
+    }
 
 }//end of class

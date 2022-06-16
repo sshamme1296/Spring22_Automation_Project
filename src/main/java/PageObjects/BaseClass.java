@@ -21,5 +21,34 @@ public class BaseClass extends Reusable_Annotations_Class{
         return  googleSearchResultPage;
     }//end of googleSearchResultPage method
 
+    public static HumanaVisionHomePage humanaVisionHomePage(){
+        HumanaVisionHomePage humanaVisionHomePage = new HumanaVisionHomePage(driver);
+        return humanaVisionHomePage;
+    }
+
+    public static HumanaInsurancePlansQuotesPage humanaInsurancePlansQuotesPage(){
+        HumanaInsurancePlansQuotesPage humanaInsurancePlansQuotesPage =new HumanaInsurancePlansQuotesPage(driver);
+        return humanaInsurancePlansQuotesPage;
+    }
+
+    public static HumanaConsumerPlanPage humanaConsumerPlanPage(){
+        HumanaConsumerPlanPage humanaConsumerPlanPage = new HumanaConsumerPlanPage(driver);
+        return humanaConsumerPlanPage;
+    }
+
+    public static HumanaFindADoctorPage humanaFindADoctorPage(){
+        HumanaFindADoctorPage humanaFindADoctorPage = new HumanaFindADoctorPage(driver);
+        return humanaFindADoctorPage;
+    }
+
+    public static HumanaVisionProviderLocatorPage humanaVisionProviderLocatorPage(){
+        HumanaVisionProviderLocatorPage humanaVisionProviderLocatorPage = new HumanaVisionProviderLocatorPage(driver);
+        return humanaVisionProviderLocatorPage;
+    }
+
+    public static HumanaVisionProviderLocatorByZipPage humanaVisionProviderLocatorByZipPage(){
+        HumanaVisionProviderLocatorByZipPage humanaVisionProviderLocatorByZipPage = new HumanaVisionProviderLocatorByZipPage(driver);
+        return humanaVisionProviderLocatorByZipPage;
+    }
 
 }

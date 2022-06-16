@@ -171,7 +171,6 @@ public class Reusable_Actions_Loggers {
             System.out.println("Unable to unable to select by text using element " + elementName + " " + e);
             logger.log(LogStatus.FAIL, "Unable to select element " + elementName);
         }
-
     }
 
     //create a switch tabs by index method

@@ -14,6 +14,8 @@ public class Reusable_Annotations_Class {
 
     //set all global variables here with public static
     public static WebDriver driver;
+    public static WebDriver driver2;
+
     public static ExtentReports reports;
     public static ExtentTest logger;
 
@@ -21,6 +23,7 @@ public class Reusable_Annotations_Class {
     @BeforeSuite
     public void SetChromeDriver(){
         driver = Reusable_Actions_Loggers.setDriver();
+        driver2 = Reusable_Actions_Loggers.setDriver2();
         //define the path to the report
         reports = new ExtentReports("src/main/java/HTML_Report/Automation.html",true);
     }//end of before suite annotation
