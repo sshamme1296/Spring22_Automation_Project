@@ -84,8 +84,8 @@ public class ActionItem6_HumanaProject {
     } //end of test 2
 
     /* 3. As a user I want to be able to buy a plan so that I can have a vision insurance plan */
-    //@Test(dependsOnMethods = "View_Detailed_Plan")
-    /* public void Buy_Plan() throws InterruptedException {
+    @Test(dependsOnMethods = "View_Detailed_Plan")
+    public void Buy_Plan() throws InterruptedException {
 
         logger = reports.startTest("Test No. 3: Buy a Vision Insurance Plan");
 
@@ -176,11 +176,11 @@ public class ActionItem6_HumanaProject {
         //end the logger per test
         reports.endTest(logger);
 
-    } //end of test 3 */
+    } //end of test 3
 
     /* 4. As a user I want to be able to find a doctor on Humana by zipcode so that I can know of the ophthalmologists in my area.*/
-    //@Test(priority = 2)
-   /* public void Find_A_Doctor_By_Zipcode() {
+    @Test(priority = 2)
+   public void Find_A_Doctor_By_Zipcode() {
         logger = reports.startTest("Test No. 4: Find a Doctor by Zipcode");
 
         driver.navigate().to("https://www.humana.com/vision-insurance");
@@ -215,8 +215,8 @@ public class ActionItem6_HumanaProject {
     } //end of test 4
 
     /* 5. As a user I want to be able to find a doctor on Humana by last name so that I can know of specific ophthalmologists in my area.*/
-    //@Test(dependsOnMethods = "Find_A_Doctor_By_Zipcode")
-   /* public void Find_A_Doctor_By_Name() throws InterruptedException {
+    @Test(dependsOnMethods = "Find_A_Doctor_By_Zipcode")
+   public void Find_A_Doctor_By_Name() throws InterruptedException {
         logger = reports.startTest("Test No. 5: Find a Doctor by Name");
 
         //go back to previous page
@@ -255,8 +255,8 @@ public class ActionItem6_HumanaProject {
     } //end of test 5
 
     /* 6. As a user I want to change the website language to Spanish so that I can read the website in Spanish*/
-    //@Test (priority = 3)
-   /* public void English_to_Spanish() throws InterruptedException {
+    @Test (priority = 3)
+   public void English_to_Spanish() throws InterruptedException {
 
         logger = reports.startTest("Test No. 6: Translate page to Spanish");
 
@@ -283,7 +283,7 @@ public class ActionItem6_HumanaProject {
         reports.endTest(logger);
 
     } //end of test 6
-*/
+
     @AfterSuite
     public void quitSession() {
         driver.quit();

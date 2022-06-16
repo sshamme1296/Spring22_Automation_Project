@@ -12,10 +12,20 @@ public class ActionItem_HumanaProject_POM extends Reusable_Annotations_Class {
     @Test(priority = 1)
     public void ReceiveAQuote() {
         driver.navigate().to("https://www.humana.com/vision-insurance");
+
+        //select state
         BaseClass.humanaVisionHomePage().selectState("//*[@value= 'New York']");
+
+        //input age
         BaseClass.humanaVisionHomePage().inputAge("76");
+
+        //click on "Get a Quote"
         BaseClass.humanaVisionHomePage().submitGetQuote();
+
+        //scroll to view plans
         BaseClass.humanaInsurancePlansQuotesPage().scrollToItem();
+
+        //take a screenshot of vision plan quote
         BaseClass.humanaInsurancePlansQuotesPage().visionPlansScreenShot("Vision Plans");
     }
 
@@ -23,9 +33,16 @@ public class ActionItem_HumanaProject_POM extends Reusable_Annotations_Class {
     @Test(dependsOnMethods = "ReceiveAQuote")
     public void SeeBenefitsSummary() throws InterruptedException {
 
+        //make sure vision plan is checked
         BaseClass.humanaInsurancePlansQuotesPage().visionPlanCheckBox();
+
+        //get more information by clicking "see more about this plan"
         BaseClass.humanaInsurancePlansQuotesPage().seeMoreInfo(1);
+
+        //print the price for the plan
         BaseClass.humanaConsumerPlanPage().capturePriceandPrint();
+
+        //Open the "Benefits Summary"
         BaseClass.humanaConsumerPlanPage().clickOnBenefitsSummary();
 
         //Switch to "Benefits Summary Page"
@@ -33,6 +50,7 @@ public class ActionItem_HumanaProject_POM extends Reusable_Annotations_Class {
 
         Thread.sleep(3000);
 
+        //close current tab
         driver.close();
     }
 
@@ -41,18 +59,29 @@ public class ActionItem_HumanaProject_POM extends Reusable_Annotations_Class {
     public void FindADoctorByZipcode() {
 
         driver.navigate().to("https://www.humana.com/vision-insurance");
+
+        //Click on find a doctor link
         BaseClass.humanaVisionHomePage().findADoctor(0);
+
+        //click on 'Medicare Advantage and Medicare Supplement plans'
         BaseClass.humanaFindADoctorPage().clickVisionLocatorLink(0);
 
         //Switch tabs
         Reusable_Actions_Loggers.switchToTabByIndex(driver, 1, logger, "Switch to Find a Eye Doctor tab");
 
+        //Enter zipcode
         BaseClass.humanaVisionProviderLocatorPage().EnterZipcode("93627");
 
+        //submit to search by zipcode
         BaseClass.humanaVisionProviderLocatorPage().searchByZipCode();
 
+        //click to get results sent to email
         BaseClass.humanaVisionProviderLocatorByZipPage().getResultsSentByEmail();
+
+        //enter email
         BaseClass.humanaVisionProviderLocatorByZipPage().enterEmail("jojimiller@gmail.com");
+
+        //submit 'Send Search Results'
         BaseClass.humanaVisionProviderLocatorByZipPage().submitEmail();
     }
 
@@ -65,9 +94,16 @@ public class ActionItem_HumanaProject_POM extends Reusable_Annotations_Class {
 
         Thread.sleep(3000);
 
+        //click on search by doctor
         BaseClass.humanaVisionProviderLocatorPage().clickOnSearchByDoctor(0);
+
+        //Enter doctors last name
         BaseClass.humanaVisionProviderLocatorPage().enterProviderName("Shah");
+
+        //Enter zipcode
         BaseClass.humanaVisionProviderLocatorPage().EnterZipcode("93627");
+
+        //submit to search
         BaseClass.humanaVisionProviderLocatorPage().searchByZipCode();
 
         Thread.sleep(3000);
